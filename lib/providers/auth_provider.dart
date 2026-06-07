@@ -21,13 +21,27 @@ class AuthProvider extends ChangeNotifier {
   StreamSubscription<UserModel?>? _userSubscription;
   StreamSubscription<CoupleModel?>? _coupleSubscription;
 
+  bool _skipCoupleConnect = false;
+
   AuthStatus get status => _status;
   UserModel? get currentUser => _currentUser;
   CoupleModel? get couple => _couple;
   String? get errorMessage => _errorMessage;
   bool get isAuthenticated => _status == AuthStatus.authenticated;
   bool get isLoading => _status == AuthStatus.loading;
-  bool get isConnected => _currentUser?.isConnected ?? false;
+
+  /// True only when both partners are connected OR user chose solo mode.
+  bool get isConnected =>
+      (_couple != null && _couple!.isComplete) || _skipCoupleConnect;
+
+  /// True when the user chose to skip couple connection and use solo.
+  bool get isSoloMode =>
+      _skipCoupleConnect && (_couple == null || !_couple!.isComplete);
+
+  /// The Firestore "namespace" used to store this user's events.
+  /// Uses coupleId when available, otherwise falls back to the user's own uid
+  /// (solo mode).
+  String? get calendarId => _currentUser?.coupleId ?? _currentUser?.uid;
 
   AuthProvider() {
     _init();
@@ -174,6 +188,12 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       return e.toString();
     }
+  }
+
+  /// Skip couple connection and use the app as a personal calendar.
+  void skipCoupleConnect() {
+    _skipCoupleConnect = true;
+    notifyListeners();
   }
 
   void clearError() {

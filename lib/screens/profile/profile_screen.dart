@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
             _SectionCard(
               title: '커플 정보',
               children: [
-                if (!auth.isConnected) ...[
+                if (auth.couple?.isComplete != true) ...[
                   _ProfileTile(
                     icon: Icons.favorite_border_rounded,
                     iconColor: AppColors.primary,

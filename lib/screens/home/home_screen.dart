@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          if (!auth.isConnected)
+          if (auth.couple?.isComplete != true)
             TextButton.icon(
               onPressed: () => Navigator.push(
                 context,
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Not connected banner
-              if (!auth.isConnected) _buildConnectBanner(context),
+              if (auth.couple?.isComplete != true) _buildConnectBanner(context),
 
               // Today's events section
               Padding(

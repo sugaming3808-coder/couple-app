@@ -115,11 +115,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
     final calendarProvider = context.read<CalendarProvider>();
 
     final uid = auth.currentUser?.uid;
-    final coupleId = auth.currentUser?.coupleId;
+    final coupleId = auth.calendarId;
 
     if (uid == null || coupleId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('커플 연결이 필요합니다.')),
+        const SnackBar(content: Text('로그인이 필요합니다.')),
       );
       return;
     }

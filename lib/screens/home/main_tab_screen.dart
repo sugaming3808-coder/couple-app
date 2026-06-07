@@ -36,10 +36,10 @@ class _MainTabScreenState extends State<MainTabScreen> {
       if (!mounted) return;
       final auth = context.read<app_auth.AuthProvider>();
       final calendar = context.read<CalendarProvider>();
-      final coupleId = auth.currentUser?.coupleId;
+      final calendarId = auth.calendarId;
       final uid = auth.currentUser?.uid;
-      if (coupleId != null && uid != null) {
-        calendar.init(coupleId, uid);
+      if (calendarId != null && uid != null) {
+        calendar.init(calendarId, uid);
       }
     });
   }
@@ -92,10 +92,10 @@ class _MainTabScreenState extends State<MainTabScreen> {
               _AddButton(
                 onTap: () {
                   final auth = context.read<app_auth.AuthProvider>();
-                  if (!auth.isConnected) {
+                  if (auth.calendarId == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('커플 연결 후 일정을 추가할 수 있어요.')),
+                          content: Text('로그인이 필요합니다.')),
                     );
                     return;
                   }

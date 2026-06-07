@@ -137,6 +137,26 @@ class _ConnectCoupleScreenState extends State<ConnectCoupleScreen>
               ],
             ),
           ),
+          // Solo mode button
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 4, 24, 16),
+              child: TextButton(
+                onPressed: () {
+                  context.read<app_auth.AuthProvider>().skipCoupleConnect();
+                },
+                child: Text(
+                  '지금은 개인 캘린더로 사용할게요',
+                  style: GoogleFonts.nunito(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
